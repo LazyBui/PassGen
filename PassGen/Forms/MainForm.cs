@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using PassGen.Utilities;
 
 namespace PassGen.Forms {
 	public partial class MainForm : Form {
+		private Random Rand { get; set; }
+
 		public MainForm() {
 			InitializeComponent();
 			CheckCheckboxes();
+			Rand = new Random();
 		}
 
 		private void btnGenerate_Click(object sender, EventArgs e) {
@@ -37,7 +39,7 @@ namespace PassGen.Forms {
 		private void btnExit_Click(object sender, EventArgs e) { Close(); }
 
 		private char Generate(string pCharString, string pCurrentPassword) {
-			return pCharString[Randomizer.GetInt32(pCharString.Length)];
+			return pCharString[Rand.Next(pCharString.Length)];
 		}
 
 		private void CheckCheckboxes(bool pTestParse = true) {
