@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 
 namespace PassGen.Forms {
@@ -24,11 +25,11 @@ namespace PassGen.Forms {
 				if (chkSpaces.Checked) charString += " ";
 				if (chkSymbols.Checked) charString += txtSymbols.Text;
 
-				string password = string.Empty;
+				var password = new StringBuilder();
 				for (uint i = 0; i < maxLength; i++) {
-					password += Generate(charString, password);
+					password.Append(charString[Rand.Next(charString.Length)]);
 				}
-				txtPassword.Text = password;
+				txtPassword.Text = password.ToString();
 				btnClipboard.Enabled = true;
 			}
 			else {
@@ -37,10 +38,6 @@ namespace PassGen.Forms {
 		}
 
 		private void btnExit_Click(object sender, EventArgs e) { Close(); }
-
-		private char Generate(string pCharString, string pCurrentPassword) {
-			return pCharString[Rand.Next(pCharString.Length)];
-		}
 
 		private void CheckCheckboxes(bool pTestParse = true) {
 			uint maxLength = 0;
