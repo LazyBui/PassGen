@@ -3,23 +3,23 @@ using System.Security.Cryptography;
 
 namespace PassGen {
 	internal sealed class SecureRandom {
-		private RNGCryptoServiceProvider Rand { get; set; }
-		private ByteArraySegment LocalRandBuffer { get; set; }
+		private RNGCryptoServiceProvider RandomSource { get; set; }
+		private ByteArraySegment LocalBuffer { get; set; }
 
 		public SecureRandom() {
-			Rand = new RNGCryptoServiceProvider();
+			RandomSource = new RNGCryptoServiceProvider();
 		}
 
 		private byte[] GrabBytes(int pBytes) {
-			if (LocalRandBuffer == null || LocalRandBuffer.Length < pBytes) {
+			if (LocalBuffer == null || LocalBuffer.Length < pBytes) {
 				byte[] newBuffer = new byte[512];
-				Rand.GetBytes(newBuffer);
-				LocalRandBuffer = new ByteArraySegment(newBuffer);
+				RandomSource.GetBytes(newBuffer);
+				LocalBuffer = new ByteArraySegment(newBuffer);
 			}
 
 			byte[] ret = new byte[pBytes];
-			Buffer.BlockCopy(LocalRandBuffer.Buffer, LocalRandBuffer.Start, ret, 0, pBytes);
-			LocalRandBuffer.Advance(pBytes);
+			Buffer.BlockCopy(LocalBuffer.Buffer, LocalBuffer.Start, ret, 0, pBytes);
+			LocalBuffer.Advance(pBytes);
 			return ret;
 		}
 
@@ -29,6 +29,6 @@ namespace PassGen {
 		public long NextInt64() { return BitConverter.ToInt64(GrabBytes(sizeof(long)), 0); }
 		public double NextDouble() { return BitConverter.ToDouble(GrabBytes(sizeof(double)), 0); }
 		public Guid NextGuid() { return new Guid(GrabBytes(16)); }
-		public void NextBytes(byte[] pBuffer) { Rand.GetBytes(pBuffer); }
+		public void NextBytes(byte[] pBuffer) { RandomSource.GetBytes(pBuffer); }
 	}
 }
