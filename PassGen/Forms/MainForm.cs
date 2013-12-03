@@ -5,12 +5,12 @@ using System.Windows.Forms;
 
 namespace PassGen.Forms {
 	public partial class MainForm : Form {
-		private Random Rand { get; set; }
+		private SecureRandom RandomSource { get; set; }
 
 		public MainForm() {
 			InitializeComponent();
 			CheckCheckboxes();
-			Rand = new Random();
+			RandomSource = new SecureRandom();
 		}
 
 		private void btnGenerate_Click(object sender, EventArgs e) {
@@ -27,7 +27,7 @@ namespace PassGen.Forms {
 
 				var password = new StringBuilder();
 				for (uint i = 0; i < maxLength; i++) {
-					password.Append(charString[Rand.Next(charString.Length)]);
+					password.Append(charString[(int)(RandomSource.NextUInt32() % (charString.Length - 1))]);
 				}
 				txtPassword.Text = password.ToString();
 				btnClipboard.Enabled = true;
