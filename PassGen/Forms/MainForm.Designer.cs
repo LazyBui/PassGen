@@ -34,10 +34,12 @@
 			this.chkSymbols = new System.Windows.Forms.CheckBox();
 			this.txtSymbols = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.txtLength = new System.Windows.Forms.TextBox();
 			this.btnGenerate = new System.Windows.Forms.Button();
 			this.btnExit = new System.Windows.Forms.Button();
 			this.btnClipboard = new System.Windows.Forms.Button();
+			this.chkExtendedAscii = new System.Windows.Forms.CheckBox();
+			this.txtLength = new System.Windows.Forms.NumericUpDown();
+			((System.ComponentModel.ISupportInitialize)(this.txtLength)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// txtPassword
@@ -112,7 +114,7 @@
 			// chkSpaces
 			// 
 			this.chkSpaces.AutoSize = true;
-			this.chkSpaces.Location = new System.Drawing.Point(197, 78);
+			this.chkSpaces.Location = new System.Drawing.Point(197, 101);
 			this.chkSpaces.Name = "chkSpaces";
 			this.chkSpaces.Size = new System.Drawing.Size(60, 17);
 			this.chkSpaces.TabIndex = 6;
@@ -142,26 +144,16 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(215, 102);
+			this.label1.Location = new System.Drawing.Point(174, 129);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(44, 13);
 			this.label1.TabIndex = 9;
 			this.label1.Text = "Length:";
 			// 
-			// txtLength
-			// 
-			this.txtLength.Location = new System.Drawing.Point(272, 99);
-			this.txtLength.MaxLength = 0;
-			this.txtLength.Name = "txtLength";
-			this.txtLength.Size = new System.Drawing.Size(103, 21);
-			this.txtLength.TabIndex = 10;
-			this.txtLength.Text = "10";
-			this.txtLength.TextChanged += new System.EventHandler(this.txtLength_TextChanged);
-			// 
 			// btnGenerate
 			// 
 			this.btnGenerate.Enabled = false;
-			this.btnGenerate.Location = new System.Drawing.Point(3, 143);
+			this.btnGenerate.Location = new System.Drawing.Point(3, 125);
 			this.btnGenerate.Name = "btnGenerate";
 			this.btnGenerate.Size = new System.Drawing.Size(75, 23);
 			this.btnGenerate.TabIndex = 11;
@@ -171,7 +163,7 @@
 			// 
 			// btnExit
 			// 
-			this.btnExit.Location = new System.Drawing.Point(300, 143);
+			this.btnExit.Location = new System.Drawing.Point(300, 125);
 			this.btnExit.Name = "btnExit";
 			this.btnExit.Size = new System.Drawing.Size(75, 23);
 			this.btnExit.TabIndex = 12;
@@ -182,7 +174,7 @@
 			// btnClipboard
 			// 
 			this.btnClipboard.Enabled = false;
-			this.btnClipboard.Location = new System.Drawing.Point(84, 143);
+			this.btnClipboard.Location = new System.Drawing.Point(84, 125);
 			this.btnClipboard.Name = "btnClipboard";
 			this.btnClipboard.Size = new System.Drawing.Size(75, 23);
 			this.btnClipboard.TabIndex = 13;
@@ -190,16 +182,46 @@
 			this.btnClipboard.UseVisualStyleBackColor = true;
 			this.btnClipboard.Click += new System.EventHandler(this.btnClipboard_Click);
 			// 
+			// chkExtendedAscii
+			// 
+			this.chkExtendedAscii.AutoSize = true;
+			this.chkExtendedAscii.Location = new System.Drawing.Point(197, 78);
+			this.chkExtendedAscii.Name = "chkExtendedAscii";
+			this.chkExtendedAscii.Size = new System.Drawing.Size(103, 17);
+			this.chkExtendedAscii.TabIndex = 14;
+			this.chkExtendedAscii.Text = "Extended ASCII";
+			this.chkExtendedAscii.UseVisualStyleBackColor = true;
+			this.chkExtendedAscii.CheckedChanged += new System.EventHandler(this.chkExtendedAscii_CheckedChanged);
+			// 
+			// txtLength
+			// 
+			this.txtLength.Location = new System.Drawing.Point(224, 126);
+			this.txtLength.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.txtLength.Name = "txtLength";
+			this.txtLength.Size = new System.Drawing.Size(67, 21);
+			this.txtLength.TabIndex = 15;
+			this.txtLength.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.txtLength.ValueChanged += new System.EventHandler(this.txtLength_ValueChanged);
+			// 
 			// MainForm
 			// 
 			this.AcceptButton = this.btnGenerate;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(378, 168);
+			this.ClientSize = new System.Drawing.Size(378, 153);
+			this.Controls.Add(this.txtLength);
+			this.Controls.Add(this.chkExtendedAscii);
 			this.Controls.Add(this.btnClipboard);
 			this.Controls.Add(this.btnExit);
 			this.Controls.Add(this.btnGenerate);
-			this.Controls.Add(this.txtLength);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.txtSymbols);
 			this.Controls.Add(this.chkSymbols);
@@ -216,6 +238,7 @@
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
 			this.Text = "PassGen";
+			((System.ComponentModel.ISupportInitialize)(this.txtLength)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -233,10 +256,11 @@
 		private System.Windows.Forms.CheckBox chkSymbols;
 		private System.Windows.Forms.TextBox txtSymbols;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox txtLength;
 		private System.Windows.Forms.Button btnGenerate;
 		private System.Windows.Forms.Button btnExit;
 		private System.Windows.Forms.Button btnClipboard;
+		private System.Windows.Forms.CheckBox chkExtendedAscii;
+		private System.Windows.Forms.NumericUpDown txtLength;
 	}
 }
 

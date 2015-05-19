@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -24,10 +25,16 @@ namespace PassGen.Forms {
 				else if (chkHexLettersUpper.Checked) charString += "ABCDEF";
 				if (chkSpaces.Checked) charString += " ";
 				if (chkSymbols.Checked) charString += txtSymbols.Text;
+				if (chkExtendedAscii.Checked) {
+					// We duplicate the chance of all of the other symbols since there are so many extended ASCII
+					// They're also intended to pepper the password, not overtake it
+					charString += charString + charString;
+					charString += string.Join(string.Empty, Enumerable.Range(127, 256 - 127).Select(i => (char)i));
+				}
 
 				var password = new StringBuilder();
 				for (uint i = 0; i < maxLength; i++) {
-					password.Append(charString[(int)(RandomSource.NextUInt32() % (charString.Length - 1))]);
+					password.Append(charString[RandomSource.NextInt32(charString.Length)]);
 				}
 				txtPassword.Text = password.ToString();
 				btnClipboard.Enabled = true;
@@ -44,14 +51,14 @@ namespace PassGen.Forms {
 			bool parsed = uint.TryParse(txtLength.Text, out maxLength);
 
 			btnGenerate.Enabled = (chkDigits.Checked ||
-									chkHexLettersLower.Checked ||
-									chkHexLettersUpper.Checked ||
-									chkLettersLower.Checked ||
-									chkLettersUpper.Checked ||
-									chkSpaces.Checked ||
-									chkSymbols.Checked) &&
-									parsed &&
-									maxLength > 0;
+				chkHexLettersLower.Checked ||
+				chkHexLettersUpper.Checked ||
+				chkLettersLower.Checked ||
+				chkLettersUpper.Checked ||
+				chkSpaces.Checked ||
+				chkSymbols.Checked) &&
+				parsed &&
+				maxLength > 0;
 
 			if (pTestParse && (!parsed || maxLength == 0)) {
 				LengthError();
@@ -76,7 +83,11 @@ namespace PassGen.Forms {
 
 		private void chkLettersUpper_CheckedChanged(object sender, EventArgs e) { CheckCheckboxes(); }
 
-		private void txtLength_TextChanged(object sender, EventArgs e) { CheckCheckboxes(false); }
+		private void chkExtendedAscii_CheckedChanged(object sender, EventArgs e) { CheckCheckboxes(); }
+
+		private void txtLength_ValueChanged(object sender, EventArgs e) {
+			CheckCheckboxes(false);
+		}
 
 		private void btnClipboard_Click(object sender, EventArgs e) {
 			try {
