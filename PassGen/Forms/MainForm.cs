@@ -46,7 +46,7 @@ namespace PassGen.Forms {
 
 		private void btnExit_Click(object sender, EventArgs e) { Close(); }
 
-		private void CheckCheckboxes(bool pTestParse = true) {
+		private void CheckCheckboxes(bool testParse = true) {
 			uint maxLength = 0;
 			bool parsed = uint.TryParse(txtLength.Text, out maxLength);
 
@@ -60,7 +60,7 @@ namespace PassGen.Forms {
 				parsed &&
 				maxLength > 0;
 
-			if (pTestParse && (!parsed || maxLength == 0)) {
+			if (testParse && (!parsed || maxLength == 0)) {
 				LengthError();
 			}
 		}

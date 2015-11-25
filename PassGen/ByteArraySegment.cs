@@ -6,20 +6,20 @@ namespace PassGen {
 		public int Start { get; private set; }
 		public int Length { get; private set; }
 
-		public ByteArraySegment(byte[] pBuffer) {
-			Buffer = pBuffer;
+		public ByteArraySegment(byte[] buffer) {
+			Buffer = buffer;
 			Length = Buffer.Length;
 			Start = 0;
 		}
-		public ByteArraySegment(byte[] pBuffer, int pStart, int pLength) {
-			Buffer = pBuffer;
-			Start = pStart;
-			Length = pLength;
+		public ByteArraySegment(byte[] buffer, int start, int length) {
+			Buffer = buffer;
+			Start = start;
+			Length = length;
 		}
 
-		public bool Advance(int pLength) {
-			Start += pLength;
-			Length -= pLength;
+		public bool Advance(int length) {
+			Start += length;
+			Length -= length;
 			return (Length <= 0);
 		}
 	}
